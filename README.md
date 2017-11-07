@@ -49,6 +49,7 @@ From the article above titled "Using Sentence-Selection Heuristics to Rank Text 
   ** or.... A combination of these methods!
 
 
-
+#### Eduard Hovy: Reasearcher in NLP area
+https://www.cs.cmu.edu/~hovy/
 
 
