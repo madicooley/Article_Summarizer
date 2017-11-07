@@ -1,8 +1,12 @@
 # Article_Summarizer
 
-## Final project for Intro to AI (COSC 4550) Fall 2017, at the University of Wyoming.
+## Final project for Intro to AI (COSC 4550) Fall 2017, University of Wyoming.
 
 ### Professor: Dr. Nick Cheney
+
+Use the http://www.nltk.org/ package?
+
+#### Preliminary Notes Taken 11/6/17
 
 #### Paths this project can take:
 Since I am only in an intro class and have no previous knowledge of natural language processing, this project can end up being a variety of things.
