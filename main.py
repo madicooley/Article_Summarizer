@@ -1,18 +1,15 @@
 #!/usr/bin/env python
 
-import re
+from document import Document
 
 def main():
     
-    with open("test_article.txt", "r") as f:
-        doc = f.read()
+    f = open("test_article.txt", "r")
 
-    sentences = re.split(r' *[\.\?!][\'"\)\]]* *', doc)
-
-    for sent in sentences:
-        print(sent)
-        print("")
-
+    #create document object
+    doc = Document(f)
+    doc.split_file()    
+    
     f.close()
 
 if __name__ == "__main__":
