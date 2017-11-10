@@ -4,9 +4,11 @@
 
 ### Professor: Dr. Nick Cheney
 
-####Packages Used:
+#### Packages Used:
 
-*NLTK package
+*NLTK package 
+
+To install NLTK http://www.nltk.org/install.html 
 
 
 ####To Run:
