@@ -2,7 +2,7 @@
 
 class Sentence:
 
-    """This class creates a 'sentece' object"""
+    """This class creates a 'sentence' object"""
 
     def __init__(self, sentence, index):
         self.sentence = sentence

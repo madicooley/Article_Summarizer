@@ -14,10 +14,16 @@ class Document:
         doc = self.fil.read()
         sentences = sent_tokenize(doc)
         #print sent_tokenize(doc)
-
-    # This function creates individual sentence objects?
-    #def create_sents(sentences):
+        return sentences
+    
+    # Calculates number of sentences in an array
+    def sentence_count(self, sentences):
+        #i = 0
         #for sent in sentences:
+           # i += 1
+        return len(sentences)
+    
+        
             
 
 
