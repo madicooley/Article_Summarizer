@@ -1,5 +1,4 @@
 from nltk import sent_tokenize
-from sentence import Sentence
 
 class Document:
 
@@ -11,8 +10,8 @@ class Document:
     # This function splits an entire document up by sentence
     def split_file(self):
     
-        doc = self.fil.read()
-        sentences = sent_tokenize(doc)
+        #doc = self.fil.read()
+        sentences = sent_tokenize(self.fil)
         #print sent_tokenize(doc)
         return sentences
     

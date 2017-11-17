@@ -6,20 +6,23 @@ from doc_segmentor import Document_Segments
 
 def main():
     
-    f = open("test_article.txt", "r")
+    f = open("test_article.txt", "r").read()
 
-    #create document object
+    #1. create document object
     doc = Document(f)
     sentences = doc.split_file()    
     num_sentences = doc.sentence_count(sentences)
     
-    f.close()
+    #f.close()
     
     scores = Score(num_sentences)
     #scores.get_scores()
     
-    segments = Document_Segments(doc)
+    #2. segments the article
+    segments = Document_Segments(f)
     segments.run()
+    
+    #3. runs sentences through heuristics
     
 
 

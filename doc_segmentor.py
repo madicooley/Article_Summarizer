@@ -2,8 +2,6 @@ import nltk, string
 from nltk.corpus import stopwords
 from nltk.tokenize.texttiling import TextTilingTokenizer
 import nltk.data
-from nltk.tokenize.treebank import TreebankWordTokenizer
-
     
 
 class Document_Segments:
@@ -13,13 +11,14 @@ class Document_Segments:
     def __init__(self, document):
         self.document = document
     
-    def sent_tokenize(self, doc):
-        tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
-        return tokenizer.tokenize
-        #_word_tokenize = TreebankWordTokenizer().tokenize
-        #return _word_tokenize(doc)
-    
-    #
+    # Segments document into topics via nltk package
     def run(self):
-        doc = self.document
-        tokens = self.sent_tokenize(doc)
+        segments = self.sent_tokenize()
+        
+    def sent_tokenize(self):
+        t = nltk.tokenize.TextTilingTokenizer()
+        return t.tokenize(self.document)
+    
+    # Determines which sentences are in which segment for future lookup
+    #def define():
+        
