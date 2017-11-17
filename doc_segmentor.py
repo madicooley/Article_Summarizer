@@ -14,6 +14,7 @@ class Document_Segments:
     # Segments document into topics via nltk package
     def run(self):
         segments = self.sent_tokenize()
+	return segments
         
     def sent_tokenize(self):
         t = nltk.tokenize.TextTilingTokenizer()

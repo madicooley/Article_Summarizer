@@ -1,26 +1,37 @@
+#document.py
+
+# ** import nltk.data
 from nltk import sent_tokenize
 
-class Document:
+def split_sentences(fil):
 
-    """This class creates a 'document' object"""
+    """ This function splits an entire document up by sentence.
 
-    def __init__(self, fil):
-        self.fil = fil
+    sent_tokenize uses an instance of PunktSentenceTokenizer 
+    from the nltk. tokenize.punkt module. This instance has already 
+    been trained on and works well for many European languages. 
+    So it knows what punctuation and characters mark the end of 
+    a sentence and the beginning of a new sentence. """
 
-    # This function splits an entire document up by sentence
-    def split_file(self):
-    
-        #doc = self.fil.read()
-        sentences = sent_tokenize(self.fil)
+    sentences = sent_tokenize(fil)
         #print sent_tokenize(doc)
-        return sentences
+    return sentences
+
+    # This function splits an entire document up by paragraph
+def split_paragraphs():
+        #sentences = paragraph_tokenize(self.fil)
+        #print sent_tokenize(doc)
+    return sentences
     
     # Calculates number of sentences in an array
-    def sentence_count(self, sentences):
+def sentence_count(fil):
+    sentences = split_sentences(fil)
         #i = 0
         #for sent in sentences:
            # i += 1
-        return len(sentences)
+    return len(sentences)
+
+
     
         
             
