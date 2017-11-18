@@ -8,10 +8,9 @@ class Heuristic:
 
     def __init__(self, fil):
         self.fil = fil  
-        num_sentences = sentence_count(self.fil)
-        self.scores = Score(num_sentences)
-	      
-	    
+        self.num_sentences = sentence_count(self.fil)
+        self.scores = Score(self.num_sentences)
+            
     # returns the scores array. Called by main
     def get_scores(self):
         self.run_all()    
@@ -22,26 +21,29 @@ class Heuristic:
         self.heuristic_one()
         #heuristic_two()
 
-	""" This function takes a document and splits it by topic and not
-        just paragraph.
-	    It weights sentences towards the beginning of a paragraph more
-	    than the sentences towards the end of the paragraph since
-	    most articles are written to where the begginning paragraphs
-	    are more information heavy.  
-	    
-	    Updates the scores array.
-	"""
+    """ This function takes a document and splits it by topic.
+    
+        It weights sentences towards the beginning of a paragraph more
+        than the sentences towards the end of the paragraph since
+        most articles are written to where the begginning paragraphs
+        are more information heavy.  
+        
+        Updates the scores array.
+    """
     def heuristic_one(self):
         s = Document_Segments(self.fil)
         segments = s.run()
 
+        i = 0
+        #print len(segments)
         for seg in segments:
-            print seg 
-            print '\n\n'
+            #print '***************************\n'
             sentences = split_sentences(seg)
-            i = 0
+            j = 0
+            #print len(sentences)
             for sents in sentences:
                 print i, sents
                 print '\n'
+                j += 1
                 i += 1
         return 1
