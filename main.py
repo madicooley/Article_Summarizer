@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import argparse
-from doc_segmentor import Document_Segments
+#from doc_segmentor import Document_Segments
 from heuristics import Heuristic
 
 # Method to get arguments from command line
@@ -23,18 +23,20 @@ def get_args():
 
 def main():
     
-    args = get_args()
-    print args
+    #args = get_args()
+    #print args
     
     f = open("test_article.txt", "r").read()
     
     #1. segments the article
-    segments = Document_Segments(f)
-    segments.run()
+    #segments = Document_Segments(f)
+    #segments.run()
     
     #2. runs sentences through heuristics
     heuristic = Heuristic(f)
     scores = heuristic.get_scores()
+    
+    print scores
 
 
 if __name__ == "__main__":

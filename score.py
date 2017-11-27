@@ -15,5 +15,11 @@ class Score:
         #for score in self.scores:
             #print "score ", index, ": ", score
             #index += 1
-	return self.scores
+        return self.scores
+
+    # Updates the score of a sentence at a given index
+    def update_score(self, index, score):
+        self.scores[index] = self.scores[index] + score;
+
+
         
