@@ -1,7 +1,16 @@
 #document.py
 
-# ** import nltk.data
+import nltk, string
+from nltk.corpus import stopwords
+from nltk.tokenize.texttiling import TextTilingTokenizer
+import nltk.data
 from nltk import sent_tokenize
+
+
+""" These functions use the nltk package textiling to split 
+    a document into categories
+"""
+
 
 def split_sentences(fil):
 
@@ -14,25 +23,17 @@ def split_sentences(fil):
     a sentence and the beginning of a new sentence. """
 
     sentences = sent_tokenize(fil)
-        #print sent_tokenize(doc)
-    return sentences
-
-    # This function splits an entire document up by paragraph
-def split_paragraphs():
-        #sentences = paragraph_tokenize(self.fil)
-        #print sent_tokenize(doc)
     return sentences
     
-    # Calculates number of sentences in an array
-def sentence_count(fil):
-    sentences = split_sentences(fil)
-        #i = 0
-        #for sent in sentences:
-           # i += 1
+# Calculates number of sentences in an array
+def sentence_count(sentences):
     return len(sentences)
 
-
-    
+# Segments document into topics via nltk package
+def split_segments(fil):
+    t = nltk.tokenize.TextTilingTokenizer()
+    segments = t.tokenize(fil)
+    return segments
         
             
 
