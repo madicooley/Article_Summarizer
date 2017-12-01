@@ -13,7 +13,6 @@ class Heuristic:
         self.sentences = split_sentences(self.fil)
         self.num_sentences = sentence_count(self.sentences)
         self.scores = Score(self.num_sentences)
-        #self.document = Document_Segments(self.fil)
         self.segments = split_segments(self.fil)
         
             
