@@ -83,8 +83,9 @@ class Segment_Heuristic:
     def __init__(self, fil, sumsents):
         self.fil = fil
         self.sumsents = sumsents
-        self.seg_scores = Segment_Score(self.sumsents)
         self.segments = split_segments(self.fil)
+        self.seg_scores = Segment_Score(len(self.segments))
+        
         
     # returns the scores array. Called by main
     def get_segscores(self):
@@ -105,14 +106,22 @@ class Segment_Heuristic:
             and higher weight.
         """
         self.seg_scores.update_seg_score(0, SEG_HEURONE_WEIGHT)
-        self.seg_scores.update_seg_score(self.sumsents - 1, SEG_HEURONE_WEIGHT)
+        self.seg_scores.update_seg_score(len(self.segments)-1, SEG_HEURONE_WEIGHT)
         
         
     def segment_heur_two(self):
         """ This function finds segments that only consist of of
             one sentence (NOTE:: maybe make this 2 in the future??)
         """
-        print 2
+        j = 0
+        for seg in self.segments:
+            i = 0
+            sentences = split_sentences(seg)
+            for sent in sentences:
+                i += 1
+            if(i < 2):
+                self.seg_scores.update_seg_score(j, -SEG_HEURTWO_WEIGHT)
+            j += 1
         
     
 

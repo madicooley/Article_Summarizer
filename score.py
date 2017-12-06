@@ -25,9 +25,9 @@ class Segment_Score:
         segment of the article.
     """
         
-    def __init__(self, summarysents):
-        self.num_sents = summarysents
-        self.seg_scores = [0] * summarysents
+    def __init__(self, numsegs):
+        self.num_segs = numsegs
+        self.seg_scores = [0] * numsegs
        
     def update_seg_score(self, index, score):
         self.seg_scores[index] = self.seg_scores[index] + score

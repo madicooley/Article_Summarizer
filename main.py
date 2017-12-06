@@ -47,7 +47,6 @@ def main():
         numsents = get_number_sents(args.length, f)
         seg_heur = Segment_Heuristic(f, numsents)
         segscores = seg_heur.get_segscores()
-        print segscores
         summary = run(numsents, f, scores, segscores)
     else:
         numsents = get_number_sents(20, f)

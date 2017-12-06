@@ -3,7 +3,7 @@
 from document import split_sentences, sentence_count, split_segments
 
 
-def run(numsents, fil, scores, segscores):
+def run(numsents, fil, sentscores, segscores):
     """ This function is what is called in order to selected the sentences 
         that will make it to the final summary.
         
@@ -11,12 +11,15 @@ def run(numsents, fil, scores, segscores):
         to create a summary which captures all aspects of the original 
         document.
     """
-    boundaries = create_segment_boundaries(fil)
-    #numsents = get_number_sents(length, fil)
-    final_sentences = select_sentences(boundaries, numsents, scores, fil)
+    segments = split_segments(fil)
+    sents = split_sentences(fil)
+    boundaries = create_segment_boundaries(segments)
+    ordered_sentscores = get_maxscore_ordering(sentscores, sents)
+    ordered_segscores = get_maxscore_ordering(segscores, segments)
+    final_sentences = select_sentences(boundaries, numsents, ordered_sentscores, ordered_segscores, fil)
     
     
-def create_segment_boundaries(fil):
+def create_segment_boundaries(segments):
     """ Determines which index ranges correspond to each segment within
         the article.
         
@@ -29,7 +32,6 @@ def create_segment_boundaries(fil):
         means it is within that segment.
     """
     
-    segments = split_segments(fil)
     i = 0
     j = 0
     boundaries = [0] * len(segments)
@@ -46,16 +48,7 @@ def create_segment_boundaries(fil):
     return boundaries
 
 
-#def get_number_sents(length, fil):
-    #""" This function determines the number of sentences that will be in
-        #the summary based on the percentage specified by the user. 
-    #"""
-    #s = len(split_sentences(fil))
-    #num = (float(length)/100) * s
-    #return round(num)
-
-
-def select_sentences(boundaries, numsents, scores, fil):
+def select_sentences(boundaries, numsents, ordered_sentscores, ordered_segscores, fil):
     """ This function take an array of tuples which contain the boundaries
         of topics. These boundaries are indexes within the array of sentences.
         Each boundary represents a range of indices within this array. It also 
@@ -65,55 +58,43 @@ def select_sentences(boundaries, numsents, scores, fil):
         This function returns an array of indices representing the final sentences
         to be included in the summary. 
     """
-    #scores = heuristic.get_scores()
-    #sentences = split_sentences(seg)
     
-    #print boundaries
-    #print scores
+    print boundaries, '\n'
+    print ordered_sentscores, '\n'
+    print ordered_segscores
+       
     sentences = 0
-    sents = int(numsents)
     i = 0
     j = 0
-    indices = [0] * sents
+    indices = [0] * numsents
     for lower, upper in boundaries:
         lower_bound = lower
         upper_bound = upper
         
         maxx = 0
         while(lower_bound < upper_bound):
-            value = scores[lower_bound]
+            value = ordered_sentscores[lower_bound]
             #print "value: ", i, " ",value
             if(value > maxx):
                 maxx = i
             lower_bound += 1
             i += 1
         indices[j] = maxx
-        if(j == sents -1): break
+        if(j == numsents -1): break
         j += 1
             
+
+def get_maxscore_ordering(scores, size):
+    """ """
+    ordered = [0] * len(size)
+    i = 0
+    for score in scores:
+        pair = (score, i)
+        ordered[i] = pair
+        i += 1
+    return sorted(ordered, key=lambda x: x[0], reverse=True)
         
-    #print indices
     
-    #i = 0
-    #j = 0
-    #for lower, upper in boundaries:
-        #lower_bound = lower
-        #upper_bound = upper
-        
-        #maxx = 0
-        #for score in scores:
-            #if (i == upper_bound): break
-            #value = scores[i]
-            #print "value: ", i ," ", value
-            #if(value > maxx):
-                #maxx = i
-            #i += 1
-            
-        #indices[j] = maxx
-        #if(j == sents -1): break
-        #j += 1
-            
-        
         
         
         
