@@ -12,14 +12,30 @@ class Score:
     # Prints the scores of each sentence
     def get_scores(self):
         index = 0
-        #for score in self.scores:
-            #print "score ", index, ": ", score
-            #index += 1
         return self.scores
 
     # Updates the score of a sentence at a given index
     def update_score(self, index, score):
-        self.scores[index] = self.scores[index] + score;
+        self.scores[index] = self.scores[index] + score
+        
+
+
+class Segment_Score:
+    """ Initializes another scores array holding the scores for each
+        segment of the article.
+    """
+        
+    def __init__(self, summarysents):
+        self.num_sents = summarysents
+        self.seg_scores = [0] * summarysents
+       
+    def update_seg_score(self, index, score):
+        self.seg_scores[index] = self.seg_scores[index] + score
+        
+    def get_seg_scores(self):
+        print "SEG SCORES"
+        return self.seg_scores
+        
 
 
         
