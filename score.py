@@ -33,7 +33,6 @@ class Segment_Score:
         self.seg_scores[index] = self.seg_scores[index] + score
         
     def get_seg_scores(self):
-        print "SEG SCORES"
         return self.seg_scores
         
 

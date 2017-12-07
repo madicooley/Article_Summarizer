@@ -14,9 +14,10 @@ def run(numsents, fil, sentscores, segscores):
     segments = split_segments(fil)
     sents = split_sentences(fil)
     boundaries = create_segment_boundaries(segments)
-    ordered_sentscores = get_maxscore_ordering(sentscores, sents)
+    #ordered_sentscores = get_maxscore_ordering(sentscores, sents)
     ordered_segscores = get_maxscore_ordering(segscores, segments)
-    final_sentences = select_sentences(boundaries, numsents, ordered_sentscores, ordered_segscores, fil)
+    final_sentences = select_sentences(boundaries, numsents, ordered_segscores, sentscores, segments)
+    print_summary(final_sentences, sents)
     
     
 def create_segment_boundaries(segments):
@@ -48,7 +49,7 @@ def create_segment_boundaries(segments):
     return boundaries
 
 
-def select_sentences(boundaries, numsents, ordered_sentscores, ordered_segscores, fil):
+def select_sentences(boundaries, numsents, ordered_segscores, sentscores, segments):
     """ This function take an array of tuples which contain the boundaries
         of topics. These boundaries are indexes within the array of sentences.
         Each boundary represents a range of indices within this array. It also 
@@ -58,34 +59,43 @@ def select_sentences(boundaries, numsents, ordered_sentscores, ordered_segscores
         This function returns an array of indices representing the final sentences
         to be included in the summary. 
     """
-    
-    print boundaries, '\n'
-    print ordered_sentscores, '\n'
-    print ordered_segscores
+    #print ordered_segscores
+    #print sentscores
+    #print boundaries
        
     sentences = 0
     i = 0
     j = 0
     indices = [0] * numsents
-    for lower, upper in boundaries:
-        lower_bound = lower
-        upper_bound = upper
-        
+    for weight, index in ordered_segscores:
+        bound = boundaries[index]
+        #print bound
+        first = bound[0]
+        second = bound[1]
         maxx = 0
-        while(lower_bound < upper_bound):
-            value = ordered_sentscores[lower_bound]
-            #print "value: ", i, " ",value
-            if(value > maxx):
-                maxx = i
-            lower_bound += 1
-            i += 1
-        indices[j] = maxx
-        if(j == numsents -1): break
+        value = 0
+        while(first < second):
+            s = sentscores[first]
+            #print "i: ", first, " ", s
+            if(s > maxx):
+                maxx = s
+                value = first
+            first += 1
+        #print "index: ", value, " i: " , maxx
+        indices[j] = value
         j += 1
-            
+        if(j == numsents): break 
+    
+    return indices
+
 
 def get_maxscore_ordering(scores, size):
-    """ """
+    """ Returns an array consisting of pairs that correspond to 
+        the weight of the segment or sentence and the index. 
+        
+        This function orders the highest weighted setences/segments
+        first, and the least weighted last. 
+    """
     ordered = [0] * len(size)
     i = 0
     for score in scores:
@@ -95,9 +105,14 @@ def get_maxscore_ordering(scores, size):
     return sorted(ordered, key=lambda x: x[0], reverse=True)
         
     
-        
-        
-        
+def print_summary(sent_indices, sents):
+    """ This function prints the actual summary. """
+    print sent_indices
+    sort = sorted(sent_indices, key=int)
+    print sort
+    i = 0
+    for ind in sort:
+        print sents[ind]
         
         
         

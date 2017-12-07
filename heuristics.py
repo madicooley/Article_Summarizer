@@ -1,10 +1,13 @@
 #heuristics.py
 
-from document import split_sentences, sentence_count, split_segments
+from document import split_sentences, sentence_count, split_segments, remove_stopwords
 from score import Score, Segment_Score
+from sentence_selector import create_segment_boundaries
 
 HEURONE_WEIGHT = 0.10
-HEURTWO_WEIGHT = 0.05
+HEURTWO_WEIGHT = 0.20
+HEURTHREE_WEIGHT = 0.10
+
 
 class Sentence_Heuristic:
 
@@ -25,6 +28,7 @@ class Sentence_Heuristic:
     def run_all(self):
         self.heuristic_one()
         self.heuristic_two()
+        self.heuristic_three()
         
 
 ########## Sentence Heuristics ############
@@ -74,14 +78,40 @@ class Sentence_Heuristic:
             i += 1
             
             
+    def heuristic_three(self):
+        """ This function determines the relevancy of each sentence to the overall 
+            subject of the article. It gets a dictionary which contains the frequency
+            of words that are not stop words within the article. 
+            
+            It then compares the words in the frequency table to the words in the sentence.
+            If the sentence contains words that are in the table, it's score is increase.
+            
+            The more words a sentence has that are 'relevant' the higher its score will be.
+        """
+        freqtable = remove_stopwords(self.fil)
+        i = 0
+        for sent in self.sentences:
+            value = 0
+            for wordval in freqtable:
+                if wordval[0] in sent.lower():
+                    value = value + HEURTHREE_WEIGHT
+            value = value / len(sent)   #so longer sentences arent favored over shorter sents
+            self.scores.update_score(i, value)
+            i += 1
+            
+            
+            
+            
 
 SEG_HEURONE_WEIGHT = 0.20
 SEG_HEURTWO_WEIGHT = 0.10
+SEG_HEURTHREE_WEIGHT = 0.10
 
 class Segment_Heuristic:            
 
-    def __init__(self, fil, sumsents):
+    def __init__(self, fil, sumsents, sent_scores):
         self.fil = fil
+        self.sent_scores = sent_scores
         self.sumsents = sumsents
         self.segments = split_segments(self.fil)
         self.seg_scores = Segment_Score(len(self.segments))
@@ -96,6 +126,7 @@ class Segment_Heuristic:
     def run_allseg(self):
         self.segment_heur_one()
         self.segment_heur_two()
+        self.segment_heur_three()
         
         
 ######### Segment Heuristics ############
@@ -122,7 +153,26 @@ class Segment_Heuristic:
             if(i < 2):
                 self.seg_scores.update_seg_score(j, -SEG_HEURTWO_WEIGHT)
             j += 1
-        
+            
+            
+    def segment_heur_three(self):
+        """ This function penalizes segments where no sentences have a score
+            greater than zero. """
+        i = 0
+        boundaries = create_segment_boundaries(self.segments)
+        for bound in boundaries:
+            first = bound[0]
+            second = bound[1]
+            maxx = 0
+            while(first < second):
+                s = self.sent_scores[first]
+                first += 1
+                if(s > maxx):
+                    maxx = s
+            if(maxx <= 0):
+                self.seg_scores.update_seg_score(i, -SEG_HEURTHREE_WEIGHT)
+            i += 1
+    
     
 
 

@@ -39,20 +39,21 @@ def main():
     
     # run sentences through heuristics
     heuristic = Sentence_Heuristic(f)
-    scores = heuristic.get_scores()
+    sent_scores = heuristic.get_scores()
+    print sent_scores
     
     # run scores array through the sentence selector to create summary
     # creates a summary of length args.length or 20 % default.
     if args.length:
         numsents = get_number_sents(args.length, f)
-        seg_heur = Segment_Heuristic(f, numsents)
+        seg_heur = Segment_Heuristic(f, numsents, sent_scores)
         segscores = seg_heur.get_segscores()
-        summary = run(numsents, f, scores, segscores)
+        summary = run(numsents, f, sent_scores, segscores)
     else:
         numsents = get_number_sents(20, f)
-        seg_heur = Segment_Heuristic(f, numsents)
+        seg_heur = Segment_Heuristic(f, numsents, sent_scores)
         segscores = seg_heur.get_segscores()
-        summary = run(numsents, f, scores, segscores) 
+        summary = run(numsents, f, sent_scores, segscores) 
         
 
 
