@@ -18,6 +18,10 @@ an affect on the entire summary.
 
 #### To Run:
 
-python main.py
+python main.py -f test3.txt
+
+or
+
+python main.py -f test3.txt -l 30
 
 
