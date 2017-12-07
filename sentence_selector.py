@@ -65,26 +65,28 @@ def select_sentences(boundaries, numsents, ordered_segscores, sentscores, segmen
        
     sentences = 0
     i = 0
-    j = 0
-    indices = [0] * numsents
-    for weight, index in ordered_segscores:
+    indices = [-1] * numsents
+    
+    #for weight, index in ordered_segscores:
+    while( sentences != numsents ):
+        weight, index = ordered_segscores[i]
         bound = boundaries[index]
-        #print bound
         first = bound[0]
         second = bound[1]
-        maxx = 0
+        maxx = -10
         value = 0
         while(first < second):
             s = sentscores[first]
-            #print "i: ", first, " ", s
-            if(s > maxx):
-                maxx = s
-                value = first
+            if ( first not in indices ): 
+                if(s > maxx):
+                    maxx = s
+                    value = first
             first += 1
-        #print "index: ", value, " i: " , maxx
-        indices[j] = value
-        j += 1
-        if(j == numsents): break 
+        indices[sentences] = value
+        sentences += 1
+        i += 1
+        if (sentences == len(ordered_segscores)):
+                i = 0
     
     return indices
 
@@ -107,9 +109,7 @@ def get_maxscore_ordering(scores, size):
     
 def print_summary(sent_indices, sents):
     """ This function prints the actual summary. """
-    print sent_indices
     sort = sorted(sent_indices, key=int)
-    print sort
     i = 0
     for ind in sort:
         print sents[ind]

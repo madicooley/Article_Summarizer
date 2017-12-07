@@ -32,15 +32,12 @@ def get_number_sents(length, fil):
 def main():
     
     args = get_args()
-    print args
-    
-    #f = open("test_article.txt", "r").read()
+
     f = open(args.file, "r").read()
     
     # run sentences through heuristics
     heuristic = Sentence_Heuristic(f)
     sent_scores = heuristic.get_scores()
-    print sent_scores
     
     # run scores array through the sentence selector to create summary
     # creates a summary of length args.length or 20 % default.

@@ -6,7 +6,7 @@ from sentence_selector import create_segment_boundaries
 
 HEURONE_WEIGHT = 0.10
 HEURTWO_WEIGHT = 0.20
-HEURTHREE_WEIGHT = 0.10
+HEURTHREE_WEIGHT = 0.003
 
 
 class Sentence_Heuristic:
@@ -95,8 +95,9 @@ class Sentence_Heuristic:
             for wordval in freqtable:
                 if wordval[0] in sent.lower():
                     value = value + HEURTHREE_WEIGHT
+                    self.scores.update_score(i, HEURTHREE_WEIGHT)
             value = value / len(sent)   #so longer sentences arent favored over shorter sents
-            self.scores.update_score(i, value)
+            #self.scores.update_score(i, value)
             i += 1
             
             
